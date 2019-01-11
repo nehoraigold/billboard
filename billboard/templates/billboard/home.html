@@ -1,0 +1,51 @@
+{% extends "billboard/base.html" %}
+
+{% block head %}
+<title>Billboards</title>
+{% endblock %}
+
+{% block content %}
+<h1>Billboards</h1>
+{% if request.user.is_authenticated %}
+    <section class='all-posts'>
+        {% for post in posts %}
+        <form>
+            <fieldset class='post-container'>
+                <legend class='post-date'>{{post.date_published|date:"SHORT_DATE_FORMAT"}}</legend>
+                <h3 class='post-title'>{{post.title}}</h3>
+                <p class='post-content'>{{post.content}}</p>
+                <div class='post-author'>{{post.author}}</div>
+            </fieldset>
+        </form>
+        {% empty %}
+        <div class='no-posts'>
+            No messages... <br />
+            Click the '+' button to add a new message.
+        </div>
+        {% endfor %}
+    </section>
+    <section id='new-post' style='display:none'>
+        <form id='new-post-form' method='POST' action='/billboard/new_post'>
+            <fieldset class='post-container new-post-container'>
+                {% csrf_token %}
+                <legend class='post-date'></legend>
+                <input type='text' class='post-title' name='title' placeholder='Title' />
+                <textarea class='post-content' name='content' placeholder='Your post here...'></textarea>
+                <input class='post-author' style="float:right" type='text' name='author' placeholder='Author' value="{{request.user.username}}"/>
+                <input type='date' name='date_published' style='display:none'/>
+            </fieldset>
+        </form>
+    </section>
+    <div class='add-post-container'>
+        <button class='add-post-btn post-btn' id='add-post'>
+            <i class='fas fa-plus'></i>
+        </button>
+    </div>
+    <a href='{% url "logout" %}' class='a-btn'>Logout</a>
+{% else %}
+    <section>
+        <a href='{% url "login" %}' class='a-btn'>Login</a>
+        <a href='{% url "register" %}' class='a-btn'>Register</a>
+    </section>
+{% endif %}
+{% endblock %}

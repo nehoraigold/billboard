@@ -1,0 +1,16 @@
+{% extends "billboard/base.html" %}
+
+{% block head %}
+<title>Register</title>
+{% endblock %}
+
+{% block content %}
+<h1>Create an Account</h1>
+<form method="POST" action="{% url 'register' %}">
+    {% csrf_token %}
+    <fieldset class='register-form'>
+        {{form.as_p}}
+        <input type='submit' value='Create' class='post-btn'/>
+    </fieldset>
+</form>
+{% endblock %}
