@@ -1,1 +1,1 @@
-web: gunicorn Assignment13.wsgi
+web: gunicorn Assignment13.wsgi --log-level=info --log-file -
