@@ -9,6 +9,9 @@
 <form method="POST" action="{% url 'register' %}">
     {% csrf_token %}
     <fieldset class='register-form'>
+        {% if msg %}
+            <p>{{msg}}</p>
+        {% endif %}
         {{form.as_p}}
         <input type='submit' value='Create' class='post-btn'/>
     </fieldset>

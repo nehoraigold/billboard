@@ -14,16 +14,23 @@ def new_post(request):
     post = BillboardForm(request.POST)
     print(post)
     if post.is_valid():
-        print(post.is_valid())
         new_billboard = post.save()
     return HttpResponseRedirect('/billboard/')
 
 def register(request):
     if request.method == "POST":
-        user = UserCreationForm(request.POST)
-        if user.is_valid():
-            user.save()
-            # login(request, user)
+        form = UserCreationForm(request.POST)
+        if form.is_valid():
+            new_user = form.save()
+            login(request, new_user)
             return HttpResponseRedirect('/billboard/')
+        else:
+            return render(
+                request,
+                'registration/register.html',
+                {
+                    "form": UserCreationForm(),
+                    "msg": "The form you submitted could not be processed. Please try again."
+                })
     else:
         return render(request, 'registration/register.html', {"form": UserCreationForm()})
