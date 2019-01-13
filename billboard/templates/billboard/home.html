@@ -7,45 +7,69 @@
 {% block content %}
 <h1>Billboards</h1>
 {% if request.user.is_authenticated %}
-    <section class='all-posts'>
-        {% for post in posts %}
-        <form>
-            <fieldset class='post-container'>
-                <legend class='post-date'>{{post.date_published|date:"SHORT_DATE_FORMAT"}}</legend>
-                <h3 class='post-title'>{{post.title}}</h3>
-                <p class='post-content'>{{post.content}}</p>
-                <div class='post-author'>{{post.author}}</div>
-            </fieldset>
-        </form>
-        {% empty %}
-        <div class='no-posts'>
-            No messages... <br />
-            Click the '+' button to add a new message.
-        </div>
-        {% endfor %}
-    </section>
-    <section id='new-post' style='display:none'>
-        <form id='new-post-form' method='POST' action='/billboard/new_post'>
-            <fieldset class='post-container new-post-container'>
-                {% csrf_token %}
-                <legend class='post-date'></legend>
-                <input type='text' class='post-title' name='title' placeholder='Title' />
-                <textarea class='post-content' name='content' placeholder='Your post here...'></textarea>
-                <input class='post-author' style="float:right" type='text' name='author' placeholder='Author' value="{{request.user.username}}"/>
-                <input type='date' name='date_published' style='display:none'/>
-            </fieldset>
-        </form>
-    </section>
-    <div class='add-post-container'>
-        <button class='add-post-btn post-btn' id='add-post'>
-            <i class='fas fa-plus'></i>
-        </button>
+<section class='all-posts'>
+    {% for post in posts %}
+    <form method='POST' action='{% url "add_comment" %}'>
+        <fieldset class='post-container'>
+            <legend class='post-date'>{{post.date_published|date:"SHORT_DATE_FORMAT"}}</legend>
+            <h3 class='post-title'>{{post.title}}</h3>
+            <p class='post-content'>{{post.content}}</p>
+            <div class='post-author'>{{post.author}}</div>
+            <h4>
+                Comments ({{post.comments.all | length}})
+                <button class="toggle-comments" id="toggle-comments-post-{{post.id}}">Show</button>
+            </h4>
+            <div class="comment-container invisible" id="comment-container-{{post.id}}">
+                {% for comment in post.comments.all %}
+                <div class="comment">
+                    <div class='comment-date'>{{comment.date}}</div>
+                    <h5><em>{{comment.author}}</em> wrote:</h5>
+                    <p class='comment-content'>{{comment.comment}}</p>
+                </div>
+                {% empty %}
+                <div>No comments on this post yet.</div>
+                {% endfor %}
+                <div class='add-comment-container' id="add-comment-{{post.id}}">
+                    <h5>Add a comment:</h5>
+                    {% csrf_token %}
+                    <input type='hidden' value="{{request.user}}" name="author" class="invisible" />
+                    <input type='hidden' value="{{post.id}}" name='billboard' class='invisible' />
+                    <input type='hidden' value="{% now 'Y-m-d' %}" name='date' class='invisible' />
+                    <textarea class='comment-msg' name="comment" id="comment-msg-{{post.id}}" cols='80' rows='5'></textarea><br /><br />
+                    <button class='submit-comment-btn post-btn' type='submit'>Add Comment</button>
+                </div>
+            </div>
+        </fieldset>
+    </form>
+    {% empty %}
+    <div class='no-posts'>
+        No messages... <br />
+        Click the '+' button to add a new message.
     </div>
-    <a href='{% url "logout" %}' class='a-btn'>Logout</a>
+    {% endfor %}
+</section>
+<section id='new-post' style='display:none'>
+    <form id='new-post-form' method='POST' action='/billboard/new_post'>
+        <fieldset class='post-container new-post-container'>
+            {% csrf_token %}
+            <legend class='post-date'></legend>
+            <input type='text' class='post-title' name='title' placeholder='Title' />
+            <textarea class='post-content' name='content' placeholder='Your post here...'></textarea>
+            <input class='post-author' style="float:right" type='text' name='author' placeholder='Author' value="{{request.user.username}} disabled" />
+            <input type='date' name='date_published' style='display:none' />
+        </fieldset>
+    </form>
+</section>
+<div class='add-post-container'>
+    <button class='add-post-btn post-btn' id='add-post'>
+        <i class='fas fa-plus'></i>
+    </button>
+</div>
+<a href='{% url "logout" %}' class='a-btn'>Logout</a>
 {% else %}
-    <section>
-        <a href='{% url "login" %}' class='a-btn'>Login</a>
-        <a href='{% url "register" %}' class='a-btn'>Register</a>
-    </section>
+<section>
+    <a href='{% url "login" %}' class='a-btn'>Login</a>
+    <a href='{% url "register" %}' class='a-btn'>Register</a>
+</section>
 {% endif %}
 {% endblock %}

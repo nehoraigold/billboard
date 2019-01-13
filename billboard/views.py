@@ -1,7 +1,7 @@
 from django.shortcuts import render
 from django.http import HttpResponseRedirect
-from .models import get_recent_posts, Billboard
-from .forms import BillboardForm
+from .models import get_recent_posts
+from .forms import BillboardForm, CommentForm
 from django.contrib.auth.forms import UserCreationForm
 from django.contrib.auth import login, logout
 
@@ -12,7 +12,6 @@ def home(request):
 
 def new_post(request):
     post = BillboardForm(request.POST)
-    print(post)
     if post.is_valid():
         new_billboard = post.save()
     return HttpResponseRedirect('/billboard/')
@@ -34,3 +33,11 @@ def register(request):
                 })
     else:
         return render(request, 'registration/register.html', {"form": UserCreationForm()})
+
+
+def add_comment(request):
+    if request.method == "POST":
+        form = CommentForm(request.POST)
+        if form.is_valid():
+            new_comment = form.save()
+    return HttpResponseRedirect('/billboard/')

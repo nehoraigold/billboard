@@ -50,6 +50,7 @@ fieldset {
     margin:10px auto;
     padding:30px;
     box-sizing: border-box;
+    font-family: Arial, Helvetica, sans-serif;
 }
 
 .post-title {
@@ -82,6 +83,44 @@ fieldset {
     text-align:right;
 }
 
+.comment-container {
+    font-family: Arial, Helvetica, sans-serif;
+}
+
+.comment-table {
+    width:100%;
+}
+
+h4 {
+    text-align: left;
+}
+
+h5 {
+    margin:0;
+    font-size:20px;
+}
+
+.comment {
+    box-sizing: border-box;
+    margin:10px;
+    padding:10px;
+    background-color:rgb(240, 240, 240);
+    text-align:left;
+    position:relative;
+    border-radius:3px;
+}
+
+.comment-date {
+    position:absolute;
+    right:20px;
+    color:gray;
+    font-style:italic;
+}
+
+.add-comment-container {
+    text-align:left;
+}
+
 .add-post-container {
     border: 1px dashed black;
     margin:20px auto;
@@ -103,6 +142,15 @@ p {
     padding:10px 30px;
     color:white;
     background-color:#00b7ef;
+}
+
+.toggle-comments {
+    border:0;
+    color:white;
+    background-color:#00b7ef;
+    border-radius:3px;
+    cursor:pointer;
+    padding:5px 10px;
 }
 
 .add-post-btn {
@@ -130,6 +178,14 @@ textarea.post-content {
 
 .fas.fa-plus {
     animation: beat 3s infinite linear;
+}
+
+.invisible {
+    display:none;
+}
+
+td {
+    padding:5px;
 }
 
 @keyframes beat {

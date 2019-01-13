@@ -11,6 +11,12 @@ class Billboard(models.Model):
         return '"{}" by {}'.format(self.title, self.author)
 
 
+class Comment(models.Model):
+    comment = models.CharField(max_length=1000)
+    author = models.CharField(max_length=150)
+    date = models.DateField('comment date')
+    billboard = models.ForeignKey(Billboard, on_delete=models.CASCADE, related_name="comments")
+
 def get_recent_posts():
     posts = Billboard.objects.all()
     return posts

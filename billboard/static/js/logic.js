@@ -8,7 +8,22 @@ Billboards.start = function() {
 
 Billboards.bindButtons = function() {
     $("#add-post").click(Billboards.createNewPostField);
+    $(".toggle-comments").click(Billboards.toggleComments);
+    $(".submit-comment-btn").click(Billboards.submitComment);
 }
+
+Billboards.toggleComments = function(event) {
+    event.preventDefault();
+    var button = $(this);
+    var postId = button.attr('id').split('-').pop();
+    $(`#comment-container-${postId}`).toggleClass('invisible');
+    var buttonText = button.text() === "Show" ? "Hide" : "Show";
+    button.text(buttonText);
+}
+
+// Billboards.submitComment = function(event) {
+//     event.preventDefault();
+// }
 
 Billboards.createNewPostField = function() {
     $("#new-post").css('display','block');
