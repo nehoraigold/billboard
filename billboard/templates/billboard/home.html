@@ -55,7 +55,7 @@
             <legend class='post-date'></legend>
             <input type='text' class='post-title' name='title' placeholder='Title' />
             <textarea class='post-content' name='content' placeholder='Your post here...'></textarea>
-            <input class='post-author' style="float:right" type='text' name='author' placeholder='Author' value="{{request.user.username}}" disabled />
+            <input class='post-author' style="float:right" type='text' name='author' readonly value="{{request.user.username}}" />
             <input type='date' name='date_published' style='display:none' />
         </fieldset>
     </form>

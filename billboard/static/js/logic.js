@@ -9,7 +9,6 @@ Billboards.start = function() {
 Billboards.bindButtons = function() {
     $("#add-post").click(Billboards.createNewPostField);
     $(".toggle-comments").click(Billboards.toggleComments);
-    $(".submit-comment-btn").click(Billboards.submitComment);
 }
 
 Billboards.toggleComments = function(event) {
@@ -20,10 +19,6 @@ Billboards.toggleComments = function(event) {
     var buttonText = button.text() === "Show" ? "Hide" : "Show";
     button.text(buttonText);
 }
-
-// Billboards.submitComment = function(event) {
-//     event.preventDefault();
-// }
 
 Billboards.createNewPostField = function() {
     $("#new-post").css('display','block');

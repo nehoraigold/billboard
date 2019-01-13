@@ -12,8 +12,12 @@ def home(request):
 
 def new_post(request):
     post = BillboardForm(request.POST)
+    print("--------------------------POST REQUEST ------------------------")
+    print(post)
     if post.is_valid():
         new_billboard = post.save()
+        print("---------------------------NEW BILLBOARD ----------------------------")
+        print(new_billboard)
     return HttpResponseRedirect('/billboard/')
 
 def register(request):
